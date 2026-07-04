@@ -30,10 +30,9 @@ Group Policy (in progress)
 Applying Group Policy Objects (GPOs) to enforce settings across the domain,
 such as password policies and restricted access, and understanding how
 policy inheritance works across OUs.
-Client Domain Join (in progress)
-Joining a client VM to the domain to test how policies and permissions
-apply to end-user machines.
-
+Client Domain Join (complete)
+Joined CLIENT01 to the domain and
+verified a domain user (Alice Carter) can log in and authenticate. Confirmed via whoami, which returned carlonlab\alice.carter
 Why This Matters
 Understanding AD is foundational for many entry-level security roles — SOC
 analysts, IT support, and security administrators all need to understand how
@@ -51,12 +50,10 @@ confuse at first.
 Next Steps
 
  Apply Group Policy Objects for password and access control
- Join and test a client VM against domain policies
  Document policy testing results with before/after screenshots
 
 Screenshots
-(Add redacted screenshots here — remove public IP addresses and any
-personal information before uploading)
+<img width="1710" height="1107" alt="whoami alice carter" src="https://github.com/user-attachments/assets/c527114a-1ba2-4b13-ae96-c98046d48346" />
 
 Built as part of my Cyber Security studies (Cert III → Cert IV) and ongoing
 Azure learning (AZ-900).
