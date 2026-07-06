@@ -57,3 +57,36 @@ Screenshots
 
 Built as part of my Cyber Security studies (Cert III → Cert IV) and ongoing
 Azure learning (AZ-900).
+## 🔍 Security Finding: External RDP Brute-Force Attempts on DC01
+
+**Date discovered:** July 2026
+**Tool used:** Windows Event Viewer (Security Log, Event ID 4625)
+
+### Finding
+While reviewing the Security event log on DC01 for an Account Lockout Policy exercise, 
+I discovered repeated Event ID 4625 ("An account failed to log on") entries originating 
+from an external IP address (80.94.95.221), not from any internal lab machine.
+
+- **Logon Type:** 3 (Network)
+- **Authentication Package:** NTLM
+- **Failure Reason:** Unknown user name or bad password
+- **Source IP:** 80.94.95.221 — registered to UNMANAGED LTD, a data center/hosting 
+  provider based in Timișoara, Romania (ASN 204428)
+- **Context:** This IP falls in a data center range with a documented history of RDP 
+  brute-force reports on AbuseIPDB (573 reports from 48 sources historically, though 
+  current abuse confidence is 0%, most recent report 9 months old)
+
+### Root Cause
+DC01's Network Security Group (DC01-nsg) allowed inbound RDP (port 3389) from **Any** 
+source, exposing the VM directly to internet-wide scanning bots.
+
+### Remediation
+Updated the DC01-nsg inbound rule to restrict RDP access to a single trusted IP 
+address, blocking the connection at the network layer before Windows authentication 
+is ever reached.
+
+### Takeaway
+Even a lab environment with no real data is a target for automated scanning the 
+moment it has a public IP. Locking down NSG source ranges is a baseline control.
+<img width="1358" height="729" alt="abuseipdb-80 94 95 223" src="https://github.com/user-attachments/assets/c0767d15-848d-4c87-ad82-4d8bd4230056" />
+
